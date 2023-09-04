@@ -3,11 +3,15 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"mod"
 	"os"
 	"strconv"
 	"strings"
 )
+
+var separator1 = "\" + "
+var separator2 = "\" - "
+var separator3 = "\" * "
+var separator4 = "\" / "
 
 func main() {
 
@@ -16,10 +20,10 @@ func main() {
 		text, _ := reader.ReadString('\n')
 		text = strings.TrimSpace(text)
 
-		index1 := strings.Index(text, mod.Separator1)
-		index2 := strings.Index(text, mod.Separator2)
-		index3 := strings.Index(text, mod.Separator3)
-		index4 := strings.Index(text, mod.Separator4)
+		index1 := strings.Index(text, separator1)
+		index2 := strings.Index(text, separator2)
+		index3 := strings.Index(text, separator3)
+		index4 := strings.Index(text, separator4)
 
 		var parts [3]string
 
