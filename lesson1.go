@@ -1,97 +1,93 @@
 package main
 
 import (
-	"bufio"
+	"awesomeProject/packageTest"
 	"fmt"
+	"github.com/avkgimbarr/ModuleTest"
 	"os"
 	"strconv"
 	"strings"
 )
 
-var separator1 = "\" + "
-var separator2 = "\" - "
-var separator3 = "\" * "
-var separator4 = "\" / "
-
 func main() {
 
 	for {
-		reader := bufio.NewReader(os.Stdin)
-		text, _ := reader.ReadString('\n')
+		var text, _ = packageTest.Reader.ReadString('\n')
 		text = strings.TrimSpace(text)
 
-		index1 := strings.Index(text, separator1)
-		index2 := strings.Index(text, separator2)
-		index3 := strings.Index(text, separator3)
-		index4 := strings.Index(text, separator4)
-
-		var parts [3]string
+		var index1 = strings.Index(text, ModuleTest.Separator1)
+		var index2 = strings.Index(text, ModuleTest.Separator2)
+		var index3 = strings.Index(text, ModuleTest.Separator3)
+		var index4 = strings.Index(text, ModuleTest.Separator4)
 
 		switch {
-		case strings.Contains(text, separator1):
+		case strings.Contains(text, ModuleTest.Separator1):
 			if len(text[1:index1]) > 10 {
 				fmt.Println("Превышено число символов первого операнда. Их может быть не больше 12 с учётом кавычек.")
 				os.Exit(1)
 			}
 
-			if len(text[index1+len(separator1):]) > 12 {
+			if len(text[index1+len(ModuleTest.Separator1):]) > 12 {
 				fmt.Println("Превышено число символов второго операнда. Их может быть не больше 12 с учётом кавычек.")
 				os.Exit(1)
 			}
 			a := text[:index1] + "\""
-			operator := separator1[2:3]
-			b := text[index1+len(separator1):]
-			parts = [3]string{a, operator, b}
-		case strings.Contains(text, separator2):
+			operator := ModuleTest.Separator1[2:3]
+			b := text[index1+len(ModuleTest.Separator1):]
+			ModuleTest.Parts = [3]string{a, operator, b}
+
+		case strings.Contains(text, ModuleTest.Separator2):
 			if len(text[1:index2]) > 10 {
 				fmt.Println("Превышено число символов первого операнда. Их может быть не больше 12 с учётом кавычек.")
 				os.Exit(1)
 			}
 
-			if len(text[index2+len(separator2):]) > 12 {
+			if len(text[index2+len(ModuleTest.Separator2):]) > 12 {
 				fmt.Println("Превышено число символов второго операнда. Их может быть не больше 12 с учётом кавычек.")
 				os.Exit(1)
 			}
 			a := text[:index2] + "\""
-			operator := separator2[2:3]
-			b := text[index2+len(separator2):]
-			parts = [3]string{a, operator, b}
-		case strings.Contains(text, separator3):
+			operator := ModuleTest.Separator2[2:3]
+			b := text[index2+len(ModuleTest.Separator2):]
+			ModuleTest.Parts = [3]string{a, operator, b}
+
+		case strings.Contains(text, ModuleTest.Separator3):
 			if len(text[1:index3]) > 10 {
 				fmt.Println("Превышено число символов первого операнда. Их может быть не больше 12 с учётом кавычек.")
 				os.Exit(1)
 			}
 
-			if len(text[index3+len(separator3):]) > 12 {
+			if len(text[index3+len(ModuleTest.Separator3):]) > 12 {
 				fmt.Println("Превышено число символов второго операнда. Их может быть не больше 12 с учётом кавычек.")
 				os.Exit(1)
 			}
 			a := text[:index3] + "\""
-			operator := separator3[2:3]
-			b := text[index3+len(separator3):]
-			parts = [3]string{a, operator, b}
-		case strings.Contains(text, separator4):
+			operator := ModuleTest.Separator3[2:3]
+			b := text[index3+len(ModuleTest.Separator3):]
+			ModuleTest.Parts = [3]string{a, operator, b}
+
+		case strings.Contains(text, ModuleTest.Separator4):
 			if len(text[1:index4]) > 10 {
 				fmt.Println("Превышено число символов первого операнда. Их может быть не больше 12 с учётом кавычек.")
 				os.Exit(1)
 			}
 
-			if len(text[index4+len(separator4):]) > 12 {
+			if len(text[index4+len(ModuleTest.Separator4):]) > 12 {
 				fmt.Println("Превышено число символов второго операнда. Их может быть не больше 12 с учётом кавычек.")
 				os.Exit(1)
 			}
 			a := text[:index4] + "\""
-			operator := separator4[2:3]
-			b := text[index4+len(separator4):]
-			parts = [3]string{a, operator, b}
+			operator := ModuleTest.Separator4[2:3]
+			b := text[index4+len(ModuleTest.Separator4):]
+			ModuleTest.Parts = [3]string{a, operator, b}
 		default:
 			fmt.Println("Неверный формат ввода.")
 			os.Exit(1)
 		}
 
-		a := parts[0]
-		operator := parts[1]
-		b := parts[2]
+		a := ModuleTest.Parts[0]
+		operator := ModuleTest.Parts[1]
+		b := ModuleTest.Parts[2]
 		bToInt, _ := strconv.Atoi(b)
 
 		if a[0] != '"' && a[len(a)-1] != '"' {
@@ -107,7 +103,7 @@ func main() {
 				os.Exit(1)
 			}
 
-			fmt.Printf("Результат:")
+			fmt.Printf("Результат: ")
 			fmt.Println(a[:len(a)-1] + b[1:])
 
 		case "-":
@@ -116,12 +112,11 @@ func main() {
 				os.Exit(1)
 			}
 
-			fmt.Printf("Результат:")
+			fmt.Printf("Результат: ")
 			aNoQuotes := a[1 : len(a)-1]
 			bNoQuotes := b[1 : len(b)-1]
 			if strings.Contains(aNoQuotes, bNoQuotes) {
-				fmt.Printf("Результат: \"")
-				fmt.Println(strings.Replace(aNoQuotes, bNoQuotes, "", -1) + "\"")
+				fmt.Println("\"" + strings.Replace(aNoQuotes, bNoQuotes, "", -1) + "\"")
 			} else {
 				fmt.Println(a)
 			}
